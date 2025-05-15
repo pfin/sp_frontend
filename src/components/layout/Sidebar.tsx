@@ -55,7 +55,7 @@ const navItems: NavItem[] = [
 function SignOutForm() {
   return (
     <form action={handleSignOut}>
-      <button type="submit" className="text-xs text-primary-300 hover:text-primary-100">
+      <button type="submit" className="text-xs text-primary-300 hover:text-white hover:bg-primary-700 px-2 py-1 rounded-md transition-colors">
         Sign Out
       </button>
     </form>
@@ -76,41 +76,53 @@ export default function Sidebar({ user }: SidebarProps) {
   const firstLetter = userName.charAt(0).toUpperCase();
 
   return (
-    <div className="flex flex-col w-64 bg-primary-900 text-white h-screen">
-      <div className="p-4 border-b border-primary-800">
-        <h1 className="text-2xl font-bold">SP Frontend</h1>
-        <p className="text-sm text-primary-300">Currency Futures Arbitrage</p>
+    <div className="flex flex-col w-64 bg-primary-800 text-white h-screen overflow-hidden">
+      <div className="p-5 border-b border-primary-700 bg-primary-900">
+        <div className="flex items-center space-x-2">
+          <div className="w-8 h-8 bg-primary-600 rounded-md flex items-center justify-center">
+            <span className="font-bold text-white">SP</span>
+          </div>
+          <div>
+            <h1 className="text-xl font-bold text-white">SP Frontend</h1>
+            <p className="text-xs text-primary-300">Currency Futures Arbitrage</p>
+          </div>
+        </div>
       </div>
-      <nav className="flex-1 overflow-y-auto pt-4">
-        <ul className="space-y-1">
-          {navItems.map((item) => {
-            const isActive = pathname === item.href;
-            return (
-              <li key={item.name}>
-                <Link
-                  href={item.href}
-                  className={`flex items-center gap-3 px-4 py-3 ${
-                    isActive 
-                      ? 'bg-primary-800 text-white' 
-                      : 'text-primary-200 hover:bg-primary-800 hover:text-white'
-                  } transition-colors duration-150 rounded-md mx-2`}
-                >
-                  {item.icon}
-                  <span>{item.name}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+      
+      <nav className="flex-1 overflow-y-auto pt-5 px-3">
+        <div className="mb-4">
+          <p className="text-xs uppercase font-semibold text-primary-300 px-3 mb-2">Main</p>
+          <ul className="space-y-1">
+            {navItems.map((item) => {
+              const isActive = pathname === item.href;
+              return (
+                <li key={item.name}>
+                  <Link
+                    href={item.href}
+                    className={`flex items-center gap-3 px-3 py-2.5 rounded-md transition-all duration-200 font-medium ${
+                      isActive 
+                        ? 'bg-primary-700 text-white shadow-sm' 
+                        : 'text-primary-100 hover:bg-primary-700/50 hover:text-white'
+                    }`}
+                  >
+                    <span className="text-primary-400">{item.icon}</span>
+                    <span>{item.name}</span>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
       </nav>
-      <div className="p-4 border-t border-primary-800">
-        <div className="flex items-center gap-3">
-          <div className="h-8 w-8 rounded-full bg-primary-500 flex items-center justify-center">
-            <span className="font-bold">{firstLetter}</span>
+      
+      <div className="p-3 mt-auto border-t border-primary-700 bg-primary-900/50">
+        <div className="flex items-center gap-3 p-2 rounded-md">
+          <div className="h-10 w-10 rounded-full bg-gradient-to-br from-primary-500 to-primary-700 flex items-center justify-center shadow-inner">
+            <span className="font-bold text-white">{firstLetter}</span>
           </div>
           <div className="flex-1">
-            <p className="font-medium">{userName}</p>
-            <p className="text-xs text-primary-300">{user?.email}</p>
+            <p className="font-medium text-white">{userName}</p>
+            <p className="text-xs text-primary-300 truncate max-w-[120px]">{user?.email}</p>
           </div>
           <SignOutForm />
         </div>
