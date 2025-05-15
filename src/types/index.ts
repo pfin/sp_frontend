@@ -55,7 +55,7 @@ export interface UserPreferences {
 export interface DashboardWidget {
   id: string;
   type: 'summary' | 'chart' | 'heatmap' | 'details';
-  config: any;  // Configuration specific to the widget type
+  config: Record<string, unknown>;  // Configuration specific to the widget type
   position: {
     x: number;
     y: number;
@@ -108,7 +108,7 @@ export enum ErrorType {
 export interface AppError {
   type: ErrorType;
   message: string;
-  details?: any;
+  details?: Record<string, unknown>;
   timestamp: Date;
 }
 

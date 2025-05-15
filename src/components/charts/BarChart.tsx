@@ -15,7 +15,7 @@ import {
 import { NameType, ValueType } from 'recharts/types/component/DefaultTooltipContent';
 
 type DataPoint = {
-  [key: string]: any;
+  [key: string]: string | number | boolean | null | undefined;
 };
 
 type DataSeries = {

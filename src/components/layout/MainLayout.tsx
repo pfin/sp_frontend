@@ -1,6 +1,6 @@
 import React, { ReactNode } from 'react';
 import Sidebar from './Sidebar';
-import { auth, signOut } from '@/auth';
+import { auth } from '@/auth';
 
 type MainLayoutProps = {
   children: ReactNode;

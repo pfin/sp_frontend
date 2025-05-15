@@ -1,6 +1,5 @@
 import { redirect } from "next/navigation";
 import { auth, signIn } from "@/auth";
-import Image from "next/image";
 
 // Form server action for handling login
 async function authenticate(formData: FormData) {
@@ -16,7 +15,7 @@ async function authenticate(formData: FormData) {
 
   try {
     await signIn("credentials", { email, password, redirect: false });
-  } catch (error) {
+  } catch (_err) {
     return { error: "Authentication failed" };
   }
 

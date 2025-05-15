@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { CurrencyPair } from '@/types'
 import { calculateImpliedDifferential, calculateActualDifferential, calculateBasisDivergence } from '@/utils/calculations'
 
 // Helper to generate random daily fluctuations

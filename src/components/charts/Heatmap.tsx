@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import { ResponsiveContainer, Tooltip } from 'recharts';
 
 type HeatmapCell = {
   x: number;
