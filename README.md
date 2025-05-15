@@ -1,6 +1,6 @@
 # Currency Futures Arbitrage Platform
 
-This platform calculates and visualizes implied interest rate differentials from currency futures contracts to identify arbitrage opportunities.
+This platform calculates and visualizes implied interest rate differentials from currency futures contracts to identify arbitrage opportunities. It incorporates advanced yield curve modeling functionality powered by QuantLib.
 
 ## Features
 
@@ -9,6 +9,9 @@ This platform calculates and visualizes implied interest rate differentials from
 - Arbitrage opportunity detection with heatmap visualization
 - Authentication system with email/password login
 - Responsive design with a custom purple theme
+- Advanced yield curve construction with QuantLib integration
+- Interactive visualization optimized for 1920x1080 resolution
+- Modern UI components with multiple styling variants
 
 ## Tech Stack
 
@@ -17,6 +20,7 @@ This platform calculates and visualizes implied interest rate differentials from
 - Tailwind CSS for styling
 - NextAuth.js for authentication
 - Recharts for data visualization
+- QuantLib integration for advanced financial modeling
 
 ## Getting Started
 
@@ -89,15 +93,39 @@ For testing purposes, you can use:
 
 - `/src/app`: App Router pages and API routes
 - `/src/components`: Reusable UI components
+  - `/src/components/ui`: UI components like Card, Badge, etc.
+  - `/src/components/layout`: Layout components including MainLayout, Header, Sidebar
+  - `/src/components/charts`: Data visualization components
 - `/src/utils`: Utility functions including calculations
 - `/src/types`: TypeScript interfaces and types
-- `/src/components/charts`: Data visualization components
+- `/src/actions`: Server actions for authentication
+
+## UI Components
+
+The platform features several enhanced UI components:
+
+- **Card**: Multiple variants including default, elevated, outlined, and glass with accent color support
+- **Badge**: Flexible badge component with various sizes, colors, and display variants
+- **Header**: Enhanced header with breadcrumbs, actions, tabs, and status indicators
+- **MainLayout**: Responsive layout with collapsible sidebar
+- **YieldCurveChart**: Interactive chart with QuantLib integration, multiple view modes, and enhanced controls
 
 ## API Endpoints
 
 - `/api/currency-pairs`: Get list of available currency pairs
 - `/api/historical-data`: Get historical data for a currency pair
 - `/api/market-data`: Get current market data
+- `/api/yield-curve`: Get yield curve data with optional parameters for interpolation method
+
+## QuantLib Integration
+
+The platform integrates QuantLib for advanced term structure modeling with the following features:
+
+- **Interpolation Methods**: Cubic spline, linear, Nelson-Siegel-Svensson, and Smith-Wilson
+- **Curve Types**: Zero rates, par rates, and forward rates
+- **Visualization**: Interactive charts with zooming, highlighting, and reference lines
+- **Parameter Control**: Adjustable resolution and model parameters
+- **Educational Information**: Technical documentation about each curve building method
 
 ## License
 
