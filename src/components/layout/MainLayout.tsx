@@ -13,7 +13,7 @@ export default async function MainLayout({ children }: MainLayoutProps) {
   return (
     <div className="flex h-screen bg-[#F8FAFC]">
       <Sidebar user={user} />
-      <main className="flex-1 overflow-auto p-6">
+      <main className="flex-1 overflow-auto p-6 lg:p-8 hd:p-10">
         <div className="max-w-full mx-auto">
           {children}
         </div>

@@ -263,13 +263,13 @@ export default function YieldCurveChart({
               dataKey="years"
               type="number"
               domain={zoom ? [zoom.start, zoom.end] : [0, 'dataMax']}
-              tick={{ fontSize: 11, fill: '#6b7280' }}
+              tick={{ fontSize: 13, fill: '#6b7280' }}
               tickFormatter={(value) => `${value}Y`}
               label={{ 
                 value: 'Maturity (Years)', 
                 position: 'insideBottom', 
                 offset: -10,
-                fontSize: 12,
+                fontSize: 14,
                 fill: '#4b5563'
               }}
               padding={{ left: 0, right: 8 }}
@@ -279,20 +279,20 @@ export default function YieldCurveChart({
             <YAxis
               domain={calculateYAxisDomain()}
               tickFormatter={(value) => `${value.toFixed(2)}%`}
-              tick={{ fontSize: 11, fill: '#6b7280' }}
+              tick={{ fontSize: 13, fill: '#6b7280' }}
               label={{ 
                 value: 'Rate (%)', 
                 angle: -90, 
                 position: 'insideLeft',
                 style: {
                   textAnchor: 'middle',
-                  fontSize: 12,
+                  fontSize: 14,
                   fill: '#4b5563'
                 }
               }}
               padding={{ top: 15, bottom: 15 }}
               stroke="#d1d5db"
-              width={45}
+              width={50}
             />
             
             <Tooltip content={<CustomTooltip />} />
@@ -344,9 +344,9 @@ export default function YieldCurveChart({
                   type={curveMethod === 'linear' ? 'linear' : 'monotone'}
                   dataKey="rate"
                   stroke="#4f46e5"
-                  strokeWidth={2.5}
-                  dot={{ r: 3, strokeWidth: 0, fill: '#4f46e5' }}
-                  activeDot={{ r: 6, stroke: '#4f46e5', strokeWidth: 1, fill: '#eef2ff' }}
+                  strokeWidth={3}
+                  dot={{ r: 4, strokeWidth: 0, fill: '#4f46e5' }}
+                  activeDot={{ r: 7, stroke: '#4f46e5', strokeWidth: 1, fill: '#eef2ff' }}
                   name={curveType === 'zero' ? 'Zero Rate' : curveType === 'par' ? 'Par Rate' : 'Forward Rate'}
                   connectNulls
                   isAnimationActive={true}
@@ -363,9 +363,9 @@ export default function YieldCurveChart({
                 data={forwardRates.sort((a, b) => a.years - b.years)}
                 dataKey="rate"
                 stroke="#8b5cf6"
-                strokeWidth={1.5}
+                strokeWidth={2}
                 strokeDasharray="4 4"
-                dot={{ r: 2, strokeWidth: 0, fill: '#8b5cf6' }}
+                dot={{ r: 3, strokeWidth: 0, fill: '#8b5cf6' }}
                 name="Forward Rate"
                 connectNulls
                 isAnimationActive={true}

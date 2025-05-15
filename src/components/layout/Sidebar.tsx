@@ -106,7 +106,7 @@ export default function Sidebar({ user }: SidebarProps) {
   const firstLetter = userName.charAt(0).toUpperCase();
 
   return (
-    <div className={`flex flex-col ${collapsed ? 'w-16' : 'w-64'} bg-[#111827] text-white h-screen overflow-hidden shadow-xl transition-all duration-300 border-r border-gray-800`}>
+    <div className={`flex flex-col ${collapsed ? 'w-16' : 'w-64 hd:w-72'} bg-[#111827] text-white h-screen overflow-hidden shadow-xl transition-all duration-300 border-r border-gray-800`}>
       {/* Logo and App Name */}
       <div className="py-5 px-4 border-b border-gray-700/50 flex items-center justify-between">
         <div className="flex items-center gap-3">
@@ -163,7 +163,7 @@ export default function Sidebar({ user }: SidebarProps) {
                         {item.icon}
                       </span>
                       {!collapsed && (
-                        <span className="text-sm font-medium">{item.name}</span>
+                        <span className="text-sm hd:text-base font-medium">{item.name}</span>
                       )}
                     </div>
                     

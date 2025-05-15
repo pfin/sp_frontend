@@ -28,8 +28,8 @@ export default function Card({
   const paddingClass = noPadding 
     ? '' 
     : compact 
-      ? 'p-4' 
-      : 'p-5';
+      ? 'p-4 hd:p-5' 
+      : 'p-5 hd:p-6';
       
   // Variant styling
   const variantClasses = {
@@ -66,7 +66,7 @@ export default function Card({
   return (
     <div className={`rounded-xl ${variantClasses[variant]} ${getAccentStyles()} overflow-hidden transition-all duration-300 ${className}`}>
       {title && (
-        <div className={`${compact ? 'p-4' : 'p-5'} ${getHeaderStyles()} flex items-center justify-between`}>
+        <div className={`${compact ? 'p-4 hd:p-5' : 'p-5 hd:p-6'} ${getHeaderStyles()} flex items-center justify-between`}>
           <div>
             <h3 className="text-base font-medium text-gray-800 flex items-center">
               {accentColor && (
@@ -85,7 +85,7 @@ export default function Card({
       )}
       <div className={paddingClass}>{children}</div>
       {footer && (
-        <div className={`border-t border-gray-200 ${compact ? 'p-4' : 'p-5'} ${variant === 'glass' ? 'bg-gray-50/30' : 'bg-gray-50'}`}>
+        <div className={`border-t border-gray-200 ${compact ? 'p-4 hd:p-5' : 'p-5 hd:p-6'} ${variant === 'glass' ? 'bg-gray-50/30' : 'bg-gray-50'}`}>
           {footer}
         </div>
       )}

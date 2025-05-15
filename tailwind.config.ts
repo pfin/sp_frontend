@@ -8,6 +8,29 @@ const config: Config = {
   ],
   theme: {
     extend: {
+      screens: {
+        '2xl': '1536px',
+        'hd': '1920px', // 1920x1080 resolution
+        '4k': '3840px', // 4K resolution
+      },
+      fontSize: {
+        // Slightly adjusted font sizes for better readability
+        'xs': ['0.75rem', { lineHeight: '1rem' }],
+        'sm': ['0.875rem', { lineHeight: '1.25rem' }],
+        'base': ['1rem', { lineHeight: '1.5rem' }],
+        'lg': ['1.125rem', { lineHeight: '1.75rem' }],
+        'xl': ['1.25rem', { lineHeight: '1.75rem' }],
+        '2xl': ['1.5rem', { lineHeight: '2rem' }],
+      },
+      spacing: {
+        // Additional spacing for larger screens
+        '4.5': '1.125rem',
+        '18': '4.5rem',
+        '68': '17rem',
+        '84': '21rem',
+        '96': '24rem',
+        '128': '32rem',
+      },
       colors: {
         primary: {
           50: '#f5f3ff',
