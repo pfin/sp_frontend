@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
-import { MainLayout } from '@/components/layout/MainLayout'
+import MainLayout from '@/components/layout/MainLayout'
 import LineChart from '@/components/charts/LineChart'
 import Card from '@/components/ui/Card'
 import Badge from '@/components/ui/Badge'
