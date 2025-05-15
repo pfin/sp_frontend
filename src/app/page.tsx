@@ -166,7 +166,7 @@ export default function Home() {
             </p>
             <div className="flex space-x-2">
               <Link 
-                href="/yield-curves" 
+                href="/yield-curves/page-redesigned" 
                 className="text-sm bg-primary-600 hover:bg-primary-700 text-white px-3 py-1.5 rounded shadow-sm transition-colors"
               >
                 Yield Curve Builder
@@ -351,7 +351,7 @@ export default function Home() {
             </ul>
             <div className="mt-3 pt-3 border-t border-neutral-100">
               <Link
-                href="/yield-curves"
+                href="/yield-curves/page-redesigned"
                 className="text-sm text-primary-600 hover:text-primary-800 flex items-center justify-center w-full bg-primary-50 hover:bg-primary-100 py-2 px-3 rounded-md transition-colors"
               >
                 <svg className="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -400,7 +400,7 @@ export default function Home() {
       
       {/* Quick links to key features */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-2">
-        <Link href="/yield-curves" className="group">
+        <Link href="/yield-curves/page-redesigned" className="group">
           <Card compact className="hover:border-primary-300 hover:bg-primary-50/50 group-hover:shadow transition-all">
             <div className="flex items-center">
               <div className="h-9 w-9 bg-primary-100 rounded-lg flex items-center justify-center mr-3 group-hover:bg-primary-200 transition-colors">

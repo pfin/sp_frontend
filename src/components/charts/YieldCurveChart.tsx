@@ -67,6 +67,9 @@ export default function YieldCurveChart({
   // State for zoom
   const [zoom, setZoom] = useState<{start: number, end: number} | null>(null);
   
+  // State for chart view type (line or area)
+  const [chartType, setChartType] = useState<'line' | 'area'>('line');
+  
   // Process the data for the chart
   const sortedData = [...data].sort((a, b) => a.years - b.years);
   
@@ -93,9 +96,12 @@ export default function YieldCurveChart({
       const point = payload[0].payload as YieldCurvePoint;
       
       return (
-        <div className="custom-tooltip bg-white p-3 shadow-md border border-neutral-200 rounded-md">
-          <p className="font-medium text-neutral-800">{point.tenor} ({point.years.toFixed(2)} years)</p>
-          <div className="space-y-1 mt-2">
+        <div className="bg-white p-3 shadow-lg border border-gray-200 rounded-lg">
+          <p className="font-medium text-gray-800 flex items-center">
+            <span className="inline-flex items-center justify-center bg-indigo-100 text-indigo-800 w-5 h-5 rounded text-xs font-bold mr-1.5">T</span>
+            {point.tenor} ({point.years.toFixed(2)} years)
+          </p>
+          <div className="space-y-1.5 mt-2">
             {payload.map((entry, index) => (
               <div key={index} className="flex items-center justify-between">
                 <div className="flex items-center">
@@ -103,60 +109,110 @@ export default function YieldCurveChart({
                     className="w-3 h-3 rounded-full mr-2"
                     style={{ backgroundColor: entry.color }}
                   />
-                  <span className="text-sm text-neutral-600">{entry.name}:</span>
+                  <span className="text-sm text-gray-600">{entry.name}:</span>
                 </div>
-                <span className="text-sm font-medium ml-3">
+                <span className="text-sm font-semibold ml-3 bg-gray-50 px-2 py-0.5 rounded">
                   {entry.value.toFixed(4)}%
                 </span>
               </div>
             ))}
           </div>
+          
+          {curveMethod === 'nss' && (
+            <div className="mt-2 pt-2 border-t border-gray-200 text-xs text-gray-500">
+              <span className="font-medium">QuantLib NSS Model</span>
+            </div>
+          )}
         </div>
       );
     }
     return null;
   };
   
-  // Custom legend that allows toggling curves
-  const CustomLegend = () => {
+  // Chart controls component
+  const ChartControls = () => {
     return (
-      <div className="flex justify-center space-x-4 mb-3">
-        <button
-          className={`px-3 py-1.5 text-xs rounded-md flex items-center space-x-2 shadow-sm ${
-            activeCurves.main 
-              ? 'bg-primary-100 text-primary-800 ring-1 ring-primary-200' 
-              : 'bg-neutral-100 text-neutral-500'
-          }`}
-          onClick={() => setActiveCurves({...activeCurves, main: !activeCurves.main})}
-        >
-          <div className="w-3 h-3 rounded-full bg-primary-600" />
-          <span>{curveType === 'zero' ? 'Zero Curve' : curveType === 'par' ? 'Par Curve' : 'Forward Curve'}</span>
-        </button>
-        
-        {showForwardCurve && forwardRates && (
+      <div className="flex flex-wrap items-center justify-between mb-4 bg-gray-50 rounded-lg p-2 border border-gray-200">
+        <div className="flex items-center space-x-2">
+          <div className="bg-white border border-gray-200 rounded-md flex text-xs">
+            <button
+              className={`px-3 py-1.5 font-medium rounded-l-md ${chartType === 'line' 
+                ? 'bg-indigo-50 text-indigo-700 border-r border-indigo-100' 
+                : 'text-gray-700 hover:bg-gray-50 border-r border-gray-200'
+              }`}
+              onClick={() => setChartType('line')}
+            >
+              Line
+            </button>
+            <button
+              className={`px-3 py-1.5 font-medium rounded-r-md ${chartType === 'area' 
+                ? 'bg-indigo-50 text-indigo-700' 
+                : 'text-gray-700 hover:bg-gray-50'
+              }`}
+              onClick={() => setChartType('area')}
+            >
+              Area
+            </button>
+          </div>
+
+          <div className="h-4 border-r border-gray-300 mx-1"></div>
+
           <button
-            className={`px-3 py-1.5 text-xs rounded-md flex items-center space-x-2 shadow-sm ${
-              activeCurves.forward 
-                ? 'bg-secondary-100 text-secondary-800 ring-1 ring-secondary-200' 
-                : 'bg-neutral-100 text-neutral-500'
+            className={`px-3 py-1.5 text-xs rounded-md flex items-center font-medium ${
+              activeCurves.main 
+                ? 'bg-indigo-100 text-indigo-800 border border-indigo-200' 
+                : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
             }`}
-            onClick={() => setActiveCurves({...activeCurves, forward: !activeCurves.forward})}
+            onClick={() => setActiveCurves({...activeCurves, main: !activeCurves.main})}
           >
-            <div className="w-3 h-3 rounded-full bg-secondary-600" />
-            <span>Forward Rates</span>
+            <div className="w-2 h-2 rounded-full bg-indigo-600 mr-1.5" />
+            {curveType === 'zero' ? 'Zero Curve' : curveType === 'par' ? 'Par Curve' : 'Forward Curve'}
           </button>
-        )}
+          
+          {showForwardCurve && forwardRates && (
+            <button
+              className={`px-3 py-1.5 text-xs rounded-md flex items-center font-medium ${
+                activeCurves.forward 
+                  ? 'bg-purple-100 text-purple-800 border border-purple-200' 
+                  : 'bg-white text-gray-600 border border-gray-200 hover:bg-gray-50'
+              }`}
+              onClick={() => setActiveCurves({...activeCurves, forward: !activeCurves.forward})}
+            >
+              <div className="w-2 h-2 rounded-full bg-purple-600 mr-1.5" />
+              Forward Rates
+            </button>
+          )}
+        </div>
+        
+        <div className="flex items-center mt-2 sm:mt-0">
+          <span className="text-xs text-gray-500 mr-2">Zoom:</span>
+          <div className="flex bg-white border border-gray-200 rounded-md text-xs divide-x divide-gray-200">
+            {zoomPresets.map((preset, index) => (
+              <button
+                key={index}
+                className={`px-2 py-1 font-medium ${
+                  (zoom === null && preset.label === 'All') || 
+                  (zoom && zoom.start === preset.range?.start && zoom.end === preset.range?.end)
+                    ? 'bg-indigo-50 text-indigo-700' 
+                    : 'text-gray-700 hover:bg-gray-50'
+                } ${index === 0 ? 'rounded-l-md' : ''} ${index === zoomPresets.length - 1 ? 'rounded-r-md' : ''}`}
+                onClick={preset.action}
+              >
+                {preset.label}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
     );
   };
-
+  
   // Zoom presets with descriptive titles
   const zoomPresets = [
-    { label: 'All', action: () => setZoom(null) },
-    { label: 'Short End (0-5Y)', action: () => setZoom({start: 0, end: 5}) },
-    { label: 'Belly (2-10Y)', action: () => setZoom({start: 2, end: 10}) },
-    { label: 'Long End (10-30Y)', action: () => setZoom({start: 10, end: 30}) },
-    { label: 'Full Curve (0-30Y)', action: () => setZoom({start: 0, end: 30}) }
+    { label: 'All', action: () => setZoom(null), range: null },
+    { label: '0-5Y', action: () => setZoom({start: 0, end: 5}), range: {start: 0, end: 5} },
+    { label: '2-10Y', action: () => setZoom({start: 2, end: 10}), range: {start: 2, end: 10} },
+    { label: '10-30Y', action: () => setZoom({start: 10, end: 30}), range: {start: 10, end: 30} }
   ];
   
   // Format to show more detailed curve information
@@ -178,77 +234,83 @@ export default function YieldCurveChart({
   return (
     <div className="w-full">
       {title && (
-        <div className="mb-4">
-          <h3 className="text-lg font-medium text-center text-neutral-800">{title}</h3>
-          <p className="text-xs text-center text-neutral-500 mt-1">
-            {getCurveMethodInfo()} | {curveType.charAt(0).toUpperCase() + curveType.slice(1)} Rates
-          </p>
+        <div className="mb-4 flex items-center justify-between">
+          <div>
+            <h3 className="text-lg font-medium text-gray-800">{title}</h3>
+            <p className="text-sm text-gray-500 mt-1">
+              {getCurveMethodInfo()}
+            </p>
+          </div>
+          
+          <div className="flex items-center bg-indigo-50 px-3 py-1 rounded-full border border-indigo-100">
+            <span className="mr-1.5 text-xs font-medium text-indigo-700">QuantLib</span>
+            <span className="text-xs bg-indigo-100 px-1.5 py-0.5 rounded-full text-indigo-800">{curveType.toUpperCase()}</span>
+          </div>
         </div>
       )}
       
-      <CustomLegend />
+      <ChartControls />
       
-      <div className="w-full h-full border border-neutral-100 rounded-lg overflow-hidden shadow-inner bg-neutral-50/50">
+      <div className="w-full h-full bg-white rounded-xl overflow-hidden shadow-sm border border-gray-200">
         <ResponsiveContainer width="100%" height={height}>
           <LineChart
             data={sortedData}
-            margin={{ top: 20, right: 40, left: 5, bottom: 20 }}
+            margin={{ top: 20, right: 30, left: 10, bottom: 20 }}
           >
-            {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" />}
+            {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="#f3f4f6" />}
             
             <XAxis
               dataKey="years"
               type="number"
               domain={zoom ? [zoom.start, zoom.end] : [0, 'dataMax']}
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 11, fill: '#6b7280' }}
               tickFormatter={(value) => `${value}Y`}
               label={{ 
                 value: 'Maturity (Years)', 
                 position: 'insideBottom', 
-                offset: -5,
-                fontSize: 12
+                offset: -10,
+                fontSize: 12,
+                fill: '#4b5563'
               }}
-              padding={{ left: 10, right: 10 }}
+              padding={{ left: 0, right: 8 }}
+              stroke="#d1d5db"
             />
             
             <YAxis
               domain={calculateYAxisDomain()}
               tickFormatter={(value) => `${value.toFixed(2)}%`}
-              tick={{ fontSize: 11 }}
+              tick={{ fontSize: 11, fill: '#6b7280' }}
               label={{ 
                 value: 'Rate (%)', 
                 angle: -90, 
                 position: 'insideLeft',
                 style: {
                   textAnchor: 'middle',
-                  fontSize: 12
+                  fontSize: 12,
+                  fill: '#4b5563'
                 }
               }}
-              padding={{ top: 10, bottom: 10 }}
+              padding={{ top: 15, bottom: 15 }}
+              stroke="#d1d5db"
+              width={45}
             />
             
             <Tooltip content={<CustomTooltip />} />
-            
-            <Legend
-              verticalAlign="top"
-              height={36}
-              formatter={(value, entry, index) => {
-                return <span className="text-xs font-medium">{value}</span>;
-              }}
-            />
             
             {highlightArea && (
               <ReferenceArea
                 x1={highlightArea.start}
                 x2={highlightArea.end}
                 strokeOpacity={0.3}
-                fill="#7c3aed"
-                fillOpacity={0.08}
+                fill="#818cf8"
+                fillOpacity={0.1}
+                stroke="#6366f1"
+                strokeDasharray="3 3"
                 label={highlightArea.label ? {
                   value: highlightArea.label,
                   position: 'insideTopRight',
-                  fontSize: 11,
-                  fill: '#6d28d9'
+                  fontSize: 10,
+                  fill: '#4f46e5'
                 } : undefined}
               />
             )}
@@ -256,31 +318,43 @@ export default function YieldCurveChart({
             {referenceLine && (
               <ReferenceLine
                 y={referenceLine.value}
-                stroke="#7c3aed"
+                stroke="#818cf8"
                 strokeDasharray="3 3"
                 label={referenceLine.label ? {
                   value: referenceLine.label,
                   position: 'right',
-                  fontSize: 11,
-                  fill: '#6d28d9'
+                  fontSize: 10,
+                  fill: '#4f46e5'
                 } : undefined}
               />
             )}
             
             {activeCurves.main && (
-              <Line
-                type={curveMethod === 'linear' ? 'linear' : 'monotone'}
-                dataKey="rate"
-                stroke="#7c3aed"
-                strokeWidth={2.5}
-                activeDot={{ r: 6, stroke: '#7c3aed', strokeWidth: 1, fill: '#faf5ff' }}
-                name={curveType === 'zero' ? 'Zero Rate' : curveType === 'par' ? 'Par Rate' : 'Forward Rate'}
-                connectNulls
-                dot={{ r: 3, strokeWidth: 0, fill: '#7c3aed' }}
-                isAnimationActive={true}
-                animationDuration={750}
-                animationEasing="ease-in-out"
-              />
+              <>
+                {chartType === 'area' ? (
+                  <defs>
+                    <linearGradient id="colorRate" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="5%" stopColor="#6366f1" stopOpacity={0.3}/>
+                      <stop offset="95%" stopColor="#6366f1" stopOpacity={0}/>
+                    </linearGradient>
+                  </defs>
+                ) : null}
+                
+                <Line
+                  type={curveMethod === 'linear' ? 'linear' : 'monotone'}
+                  dataKey="rate"
+                  stroke="#4f46e5"
+                  strokeWidth={2.5}
+                  dot={{ r: 3, strokeWidth: 0, fill: '#4f46e5' }}
+                  activeDot={{ r: 6, stroke: '#4f46e5', strokeWidth: 1, fill: '#eef2ff' }}
+                  name={curveType === 'zero' ? 'Zero Rate' : curveType === 'par' ? 'Par Rate' : 'Forward Rate'}
+                  connectNulls
+                  isAnimationActive={true}
+                  animationDuration={750}
+                  animationEasing="ease-out"
+                  fill={chartType === 'area' ? "url(#colorRate)" : undefined}
+                />
+              </>
             )}
             
             {showForwardCurve && forwardRates && activeCurves.forward && (
@@ -288,15 +362,15 @@ export default function YieldCurveChart({
                 type={curveMethod === 'linear' ? 'linear' : 'monotone'}
                 data={forwardRates.sort((a, b) => a.years - b.years)}
                 dataKey="rate"
-                stroke="#9333ea"
-                strokeWidth={2}
-                strokeDasharray="5 5"
+                stroke="#8b5cf6"
+                strokeWidth={1.5}
+                strokeDasharray="4 4"
+                dot={{ r: 2, strokeWidth: 0, fill: '#8b5cf6' }}
                 name="Forward Rate"
                 connectNulls
-                dot={{ r: 2, strokeWidth: 0, fill: '#9333ea' }}
                 isAnimationActive={true}
                 animationDuration={750}
-                animationEasing="ease-in-out"
+                animationEasing="ease-out"
                 animationBegin={250}
               />
             )}
@@ -304,29 +378,50 @@ export default function YieldCurveChart({
         </ResponsiveContainer>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-2 mt-4">
-        {zoomPresets.map((preset, index) => (
-          <button
-            key={index}
-            className="text-xs px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 rounded-md shadow-sm font-medium text-neutral-700 transition-colors"
-            onClick={preset.action}
-          >
-            {preset.label}
-          </button>
-        ))}
+      <div className="flex justify-between items-start mt-4">
+        <div className="flex items-center space-x-2 text-xs text-gray-500">
+          <div className="flex items-center">
+            <span className="w-3 h-3 rounded-full bg-indigo-500 mr-1.5"></span>
+            <span className="font-medium">{curveType.charAt(0).toUpperCase() + curveType.slice(1)} Rate</span>
+          </div>
+          
+          {showForwardCurve && forwardRates && (
+            <div className="flex items-center">
+              <span className="w-3 h-3 rounded-full bg-purple-500 mr-1.5"></span>
+              <span className="font-medium">Forward Rate</span>
+            </div>
+          )}
+        </div>
+        
+        <div className="flex items-center justify-end">
+          <div className="bg-indigo-50 rounded-lg p-1.5 flex items-center text-xs text-indigo-700">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 mr-1.5">
+              <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+              <polyline points="3.29 7 12 12 20.71 7"></polyline>
+              <line x1="12" y1="22" x2="12" y2="12"></line>
+            </svg>
+            <span className="font-medium">Powered by QuantLib</span>
+          </div>
+        </div>
       </div>
       
-      <div className="flex items-center justify-center mt-4 space-x-2 text-xs text-neutral-500">
-        <div className="w-4 h-4 flex items-center justify-center">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+      <div className="mt-4 p-3 bg-gray-50 border border-gray-200 rounded-lg">
+        <h4 className="text-xs font-semibold text-gray-700 mb-2 flex items-center">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-3.5 w-3.5 mr-1.5 text-indigo-600">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M12 16v-4"></path>
+            <path d="M12 8h.01"></path>
           </svg>
-        </div>
-        <p>
-          {curveMethod === 'cubic' ? 'Cubic splines maintain smoothness at knot points while preserving first and second derivatives.' :
-           curveMethod === 'nss' ? 'Nelson-Siegel-Svensson model uses 6 parameters to capture yield curve dynamics across maturities.' :
-           curveMethod === 'smithwilson' ? 'Smith-Wilson method ensures convergence to an ultimate forward rate for long durations.' : 
-           'Linear interpolation connects rate points with straight line segments.'}
+          About {curveMethod.toUpperCase()} Interpolation
+        </h4>
+        <p className="text-xs text-gray-600 leading-relaxed">
+          {curveMethod === 'cubic' 
+            ? 'Cubic splines maintain smoothness at knot points while preserving first and second derivatives, creating a fluid curve that better represents continuous rate changes across the term structure.' 
+            : curveMethod === 'nss' 
+              ? 'The Nelson-Siegel-Svensson model uses 6 parameters to capture yield curve dynamics across maturities. This parametric approach excels at modeling complex shapes while ensuring economically reasonable forward rates.' 
+              : curveMethod === 'smithwilson' 
+                ? 'The Smith-Wilson method ensures convergence to an ultimate forward rate for long durations, making it particularly valuable for extrapolating yield curves beyond observable market data - a key requirement for insurance applications.' 
+                : 'Linear interpolation connects rate points with straight line segments, offering a simple but less accurate representation of the yield curve that may miss important curvature between observed points.'}
         </p>
       </div>
     </div>

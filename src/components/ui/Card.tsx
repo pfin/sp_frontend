@@ -9,6 +9,8 @@ type CardProps = {
   noPadding?: boolean;
   headerAction?: ReactNode;
   compact?: boolean;
+  variant?: 'default' | 'elevated' | 'outlined' | 'glass';
+  accentColor?: 'primary' | 'indigo' | 'blue' | 'gray' | 'green' | 'red';
 };
 
 export default function Card({ 
@@ -18,25 +20,64 @@ export default function Card({
   className = '', 
   footer, 
   noPadding = false, 
-  headerAction, 
-  compact = false 
+  headerAction,
+  compact = false,
+  variant = 'default',
+  accentColor
 }: CardProps) {
   const paddingClass = noPadding 
     ? '' 
     : compact 
-      ? 'p-3 md:p-4' 
-      : 'p-4 md:p-5 lg:p-6';
+      ? 'p-4' 
+      : 'p-5';
+      
+  // Variant styling
+  const variantClasses = {
+    default: 'bg-white border border-gray-200',
+    elevated: 'bg-white shadow-lg border-0',
+    outlined: 'bg-white border-2 border-gray-200',
+    glass: 'bg-white/80 backdrop-blur-sm border border-white/20'
+  };
+  
+  // Accent color styling
+  const getAccentStyles = () => {
+    if (!accentColor) return '';
+    
+    const accentColors = {
+      primary: 'border-l-4 border-l-purple-500',
+      indigo: 'border-l-4 border-l-indigo-500',
+      blue: 'border-l-4 border-l-blue-500',
+      gray: 'border-l-4 border-l-gray-500',
+      green: 'border-l-4 border-l-emerald-500',
+      red: 'border-l-4 border-l-red-500'
+    };
+    
+    return accentColors[accentColor];
+  };
+
+  // Header styling based on variant
+  const getHeaderStyles = () => {
+    if (variant === 'glass') {
+      return 'border-b border-gray-200/50 bg-gray-50/50';
+    }
+    return 'border-b border-gray-200 bg-gray-50/80';
+  };
 
   return (
-    <div className={`bg-white rounded-lg shadow-sm hover:shadow border border-neutral-100 overflow-hidden transition-shadow ${className}`}>
+    <div className={`rounded-xl ${variantClasses[variant]} ${getAccentStyles()} overflow-hidden transition-all duration-300 ${className}`}>
       {title && (
-        <div className={`${compact ? 'px-3 py-2 md:px-4 md:py-3' : 'px-4 py-3 md:px-5 md:py-4'} border-b border-neutral-100 bg-neutral-50 flex items-center justify-between`}>
+        <div className={`${compact ? 'p-4' : 'p-5'} ${getHeaderStyles()} flex items-center justify-between`}>
           <div>
-            <h3 className="text-sm font-semibold text-neutral-800">{title}</h3>
-            {subtitle && <p className="text-xs text-neutral-500 mt-0.5">{subtitle}</p>}
+            <h3 className="text-base font-medium text-gray-800 flex items-center">
+              {accentColor && (
+                <span className={`w-2 h-2 rounded-full bg-${accentColor === 'primary' ? 'purple' : accentColor}-500 mr-2`}></span>
+              )}
+              {title}
+            </h3>
+            {subtitle && <p className="text-sm text-gray-500 mt-1">{subtitle}</p>}
           </div>
           {headerAction && (
-            <div className="ml-4">
+            <div className="ml-4 flex-shrink-0">
               {headerAction}
             </div>
           )}
@@ -44,7 +85,7 @@ export default function Card({
       )}
       <div className={paddingClass}>{children}</div>
       {footer && (
-        <div className={`border-t border-neutral-100 ${compact ? 'px-3 py-2 md:px-4 md:py-3' : 'px-4 py-3 md:px-5 md:py-4'} bg-neutral-50`}>
+        <div className={`border-t border-gray-200 ${compact ? 'p-4' : 'p-5'} ${variant === 'glass' ? 'bg-gray-50/30' : 'bg-gray-50'}`}>
           {footer}
         </div>
       )}
