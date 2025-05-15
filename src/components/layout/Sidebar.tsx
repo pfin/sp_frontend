@@ -1,6 +1,9 @@
+'use client';
+
 import React from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { handleSignOut } from '@/actions/auth';
 
 // Icons
 const DashboardIcon = () => (
@@ -47,13 +50,11 @@ const navItems: NavItem[] = [
   { name: 'Settings', href: '/settings', icon: <SettingsIcon /> },
 ];
 
+
 // Form for handling sign out functionality
 function SignOutForm() {
   return (
-    <form action={async () => {
-      'use server';
-      await import('@/auth').then(({ signOut }) => signOut());
-    }}>
+    <form action={handleSignOut}>
       <button type="submit" className="text-xs text-primary-300 hover:text-primary-100">
         Sign Out
       </button>
