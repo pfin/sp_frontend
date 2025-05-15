@@ -7,7 +7,7 @@ import { handleSignOut } from '@/actions/auth';
 
 // Modern Icons
 const DashboardIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
     <rect x="3" y="3" width="7" height="7"></rect>
     <rect x="14" y="3" width="7" height="7"></rect>
     <rect x="14" y="14" width="7" height="7"></rect>
@@ -16,7 +16,7 @@ const DashboardIcon = () => (
 );
 
 const CurrencyPairsIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
     <circle cx="12" cy="12" r="8"></circle>
     <line x1="16" y1="8" x2="8" y2="16"></line>
     <line x1="12" y1="7" x2="12" y2="17"></line>
@@ -26,14 +26,14 @@ const CurrencyPairsIcon = () => (
 );
 
 const HistoricalDataIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
     <polyline points="12 8 12 12 14 14"></polyline>
     <path d="M3.05 11a9 9 0 1 1 .5 4m-.5 5v-5h5"></path>
   </svg>
 );
 
 const OpportunitiesIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
     <path d="m2 8 2 2-2 2 2 2-2 2"></path>
     <path d="m22 8-2 2 2 2-2 2 2 2"></path>
     <path d="M8 18.82 6.5 21l-3-4.5L4 16"></path>
@@ -46,7 +46,7 @@ const OpportunitiesIcon = () => (
 );
 
 const YieldCurvesIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
     <path d="M21 21H4a2 2 0 0 1-2-2V3"></path>
     <path d="M19 15c-1.5 0-3-2-4.5-2s-3 2-4.5 2-3-2-4.5-2S3 15 1.5 15"></path>
     <path d="M19 8.5c-1.5 0-3-2-4.5-2s-3 2-4.5 2-3-2-4.5-2S3 8.5 1.5 8.5"></path>
@@ -54,7 +54,7 @@ const YieldCurvesIcon = () => (
 );
 
 const SettingsIcon = () => (
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5">
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
     <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
     <circle cx="12" cy="12" r="3"></circle>
   </svg>
@@ -72,7 +72,7 @@ const navItems: NavItem[] = [
   { name: 'Currency Pairs', href: '/currency-pairs', icon: <CurrencyPairsIcon />, description: 'FX Analysis' },
   { name: 'Historical Data', href: '/historical', icon: <HistoricalDataIcon />, description: 'Time Series' },
   { name: 'Opportunities', href: '/opportunities', icon: <OpportunitiesIcon />, description: 'Arbitrage Finder' },
-  { name: 'Yield Curves', href: '/yield-curves', icon: <YieldCurvesIcon />, description: 'QuantLib Models' },
+  { name: 'Yield Curves', href: '/yield-curves/page-redesigned', icon: <YieldCurvesIcon />, description: 'QuantLib Models' },
   { name: 'Settings', href: '/settings', icon: <SettingsIcon />, description: 'Preferences' },
 ];
 
@@ -81,7 +81,7 @@ function SignOutForm() {
   return (
     <form action={handleSignOut}>
       <button type="submit" className="p-1 rounded-full hover:bg-white/10 transition-all" title="Sign Out">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
           <polyline points="16 17 21 12 16 7"></polyline>
           <line x1="21" y1="12" x2="9" y2="12"></line>
@@ -183,7 +183,7 @@ export default function Sidebar({ user }: SidebarProps) {
           <div className="mt-8 px-3">
             <div className="relative">
               <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-gray-400">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-gray-400">
                   <circle cx="11" cy="11" r="8"></circle>
                   <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
                 </svg>
@@ -202,7 +202,7 @@ export default function Sidebar({ user }: SidebarProps) {
       {!collapsed && (
         <div className="mx-3 my-4 p-3 bg-indigo-600/20 border border-indigo-500/30 rounded-lg">
           <div className="flex items-center mb-2">
-            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-4 h-4 text-indigo-400 mr-1.5">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-3.5 h-3.5 text-indigo-400 mr-1">
               <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
               <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
               <line x1="12" y1="22.08" x2="12" y2="12"></line>
