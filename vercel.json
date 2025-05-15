@@ -1,0 +1,42 @@
+{
+  "version": 2,
+  "buildCommand": "next build",
+  "devCommand": "next dev",
+  "installCommand": "npm install",
+  "framework": "nextjs",
+  "regions": ["iad1"],
+  "env": {
+    "NEXTAUTH_URL": {
+      "development": "http://localhost:3000",
+      "preview": "https://sp-frontend-preview.vercel.app",
+      "production": "https://sp-frontend.vercel.app"
+    },
+    "NEXTAUTH_SECRET": {
+      "development": "development-secret-do-not-use-in-production"
+    },
+    "NEXT_PUBLIC_API_URL": {
+      "development": "http://localhost:3000/api",
+      "preview": "https://sp-frontend-preview.vercel.app/api",
+      "production": "https://sp-frontend.vercel.app/api"
+    }
+  },
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        }
+      ]
+    }
+  ]
+}
