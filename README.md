@@ -1,6 +1,6 @@
 # Currency Futures Arbitrage Platform
 
-This platform calculates and visualizes implied interest rate differentials from currency futures contracts to identify arbitrage opportunities. It incorporates advanced yield curve modeling functionality powered by QuantLib.
+This platform calculates and visualizes implied interest rate differentials from currency futures contracts to identify arbitrage opportunities. It incorporates advanced yield curve modeling functionality powered by QuantLib with an enhanced UI optimized for 1920x1080 resolution.
 
 ## Features
 
@@ -10,8 +10,12 @@ This platform calculates and visualizes implied interest rate differentials from
 - Authentication system with email/password login
 - Responsive design with a custom purple theme
 - Advanced yield curve construction with QuantLib integration
-- Interactive visualization optimized for 1920x1080 resolution
+- Interactive visualization optimized for 1920x1080 display resolution
 - Modern UI components with multiple styling variants
+- Redesigned yield curves page with 3-column layout featuring:
+  - QuantLib feature highlights and educational content
+  - Parameter controls with advanced configuration options
+  - Interactive chart with multiple visualization modes
 
 ## Tech Stack
 
@@ -62,14 +66,33 @@ This platform calculates and visualizes implied interest rate differentials from
 
 ## Deployment to Vercel
 
-### One-Click Deployment
+### GitHub Integration
 
-1. Push your code to GitHub (already done)
-2. Import your GitHub repository to Vercel:
+1. Push your code to GitHub:
+   ```bash
+   # Add all changes
+   git add .
+   
+   # Commit changes
+   git commit -m "Update README and finalize UI improvements"
+   
+   # Push to GitHub
+   git push origin main
+   ```
+
+### Connecting to Vercel
+
+1. Import your GitHub repository to Vercel:
    - Go to [Vercel Dashboard](https://vercel.com/new)
    - Select "Import Git Repository"
    - Choose this repository
    - Click "Deploy"
+
+2. For subsequent deployments, simply push to your GitHub repository:
+   ```bash
+   git push origin main
+   ```
+   Vercel will automatically detect the push and start a new deployment.
 
 ### Environment Variables
 
@@ -82,6 +105,10 @@ After deployment, configure these environment variables in the Vercel project se
    - `NEXTAUTH_SECRET`: A secure random string for production (use a password generator)
 
 Vercel automatically detects Next.js projects and configures the appropriate build settings.
+
+### Branch Previews
+
+Vercel automatically creates preview deployments for each branch and pull request, allowing you to test changes before merging to the main branch.
 
 ## Auth Credentials
 
@@ -126,6 +153,11 @@ The platform integrates QuantLib for advanced term structure modeling with the f
 - **Visualization**: Interactive charts with zooming, highlighting, and reference lines
 - **Parameter Control**: Adjustable resolution and model parameters
 - **Educational Information**: Technical documentation about each curve building method
+- **Enhanced UI**: Optimized for 1920x1080 resolution with properly sized components
+- **Model Comparison**: Side-by-side visualization of different curve building techniques
+- **Forward Rate Calculation**: Derivation and display of forward rates from zero curves
+- **Market Data Table**: Detailed display of market data points with calculated metrics
+- **Curve Information Cards**: Clear presentation of curve metadata and parameters
 
 ## License
 
