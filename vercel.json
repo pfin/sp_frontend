@@ -6,19 +6,9 @@
   "framework": "nextjs",
   "regions": ["iad1"],
   "env": {
-    "NEXTAUTH_URL": {
-      "development": "http://localhost:3000",
-      "preview": "https://sp-frontend-preview.vercel.app",
-      "production": "https://sp-frontend.vercel.app"
-    },
-    "NEXTAUTH_SECRET": {
-      "development": "development-secret-do-not-use-in-production"
-    },
-    "NEXT_PUBLIC_API_URL": {
-      "development": "http://localhost:3000/api",
-      "preview": "https://sp-frontend-preview.vercel.app/api",
-      "production": "https://sp-frontend.vercel.app/api"
-    }
+    "NEXTAUTH_URL": "https://sp-frontend.vercel.app",
+    "NEXTAUTH_SECRET": "@nextauth-secret",
+    "NEXT_PUBLIC_API_URL": "https://sp-frontend.vercel.app/api"
   },
   "headers": [
     {
