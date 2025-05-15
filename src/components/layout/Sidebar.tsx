@@ -47,6 +47,7 @@ const navItems: NavItem[] = [
   { name: 'Currency Pairs', href: '/currency-pairs', icon: <AnalyticsIcon /> },
   { name: 'Historical Data', href: '/historical', icon: <ChartIcon /> },
   { name: 'Opportunities', href: '/opportunities', icon: <OpportunitiesIcon /> },
+  { name: 'Yield Curves', href: '/yield-curves', icon: <ChartIcon /> },
   { name: 'Settings', href: '/settings', icon: <SettingsIcon /> },
 ];
 
