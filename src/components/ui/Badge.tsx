@@ -1,14 +1,15 @@
 import React, { ReactNode } from 'react';
 
-type BadgeColor = 'primary' | 'secondary' | 'purple' | 'blue' | 'green' | 'red' | 'amber' | 'gray';
+type BadgeColor = 'primary' | 'secondary' | 'purple' | 'blue' | 'green' | 'red' | 'amber' | 'gray' | 'neutral';
 
 type BadgeProps = {
   children: ReactNode;
   color?: BadgeColor;
   className?: string;
+  size?: 'sm' | 'md';
 };
 
-export default function Badge({ children, color = 'primary', className = '' }: BadgeProps) {
+export default function Badge({ children, color = 'primary', className = '', size = 'md' }: BadgeProps) {
   // Map color to background and text colors with updated styling
   const colorClasses: Record<BadgeColor, string> = {
     primary: 'bg-primary-100 text-primary-800 ring-1 ring-primary-200',
@@ -19,11 +20,17 @@ export default function Badge({ children, color = 'primary', className = '' }: B
     red: 'bg-red-100 text-red-800 ring-1 ring-red-200',
     amber: 'bg-amber-100 text-amber-800 ring-1 ring-amber-200',
     gray: 'bg-gray-100 text-gray-800 ring-1 ring-gray-200',
+    neutral: 'bg-neutral-100 text-neutral-700 ring-1 ring-neutral-200',
+  };
+
+  const sizeClasses = {
+    sm: 'px-1.5 py-0.5 text-xs',
+    md: 'px-2.5 py-0.5 text-xs'
   };
 
   return (
     <span
-      className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${colorClasses[color]} ${className}`}
+      className={`inline-flex items-center rounded-full font-medium ${sizeClasses[size]} ${colorClasses[color]} ${className}`}
     >
       {children}
     </span>

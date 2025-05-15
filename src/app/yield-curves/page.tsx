@@ -110,61 +110,73 @@ export default function YieldCurvesPage() {
     <MainLayout>
       <Header 
         title="QuantLib Yield Curve Builder" 
-        subtitle="Build, visualize and analyze yield curves using QuantLib"
+        subtitle="Build, visualize and analyze yield curves using advanced quantitative models"
         breadcrumbs={breadcrumbs}
       />
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
-        <Card className="bg-white hover:shadow-lg transition-all">
-          <div className="flex items-center">
-            <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-primary-100 text-primary-600 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
-              </svg>
+      <div className="mb-6 quantlib-section">
+        <div className="flex flex-col lg:flex-row lg:items-center">
+          <div className="lg:w-2/3 mb-4 lg:mb-0">
+            <h2 className="text-lg font-semibold text-primary-800 mb-1">Advanced Term Structure Modeling</h2>
+            <p className="text-sm text-neutral-700 lg:pr-4">
+              Use QuantLib-powered models to construct, interpolate, and analyze yield curves. Apply various 
+              modeling techniques including cubic splines, Nelson-Siegel-Svensson, and Smith-Wilson methods.
+            </p>
+          </div>
+          <div className="lg:w-1/3 grid grid-cols-3 gap-2 lg:ml-auto">
+            <div className="bg-white p-2 rounded-lg shadow-sm text-center">
+              <p className="text-xs text-neutral-500">Available Curves</p>
+              <p className="text-xl font-bold text-primary-700">{curves.length}</p>
             </div>
-            <div>
-              <p className="text-sm text-neutral-500">Curves Available</p>
-              <p className="text-2xl font-bold text-neutral-900">{curves.length}</p>
+            <div className="bg-white p-2 rounded-lg shadow-sm text-center">
+              <p className="text-xs text-neutral-500">Methods</p>
+              <p className="text-xl font-bold text-primary-700">4</p>
+            </div>
+            <div className="bg-white p-2 rounded-lg shadow-sm text-center">
+              <p className="text-xs text-neutral-500">Current</p>
+              <Badge color="primary" className="mt-1">
+                {currentCurve ? 
+                  currentCurve.curveMethod.charAt(0).toUpperCase() + currentCurve.curveMethod.slice(1) : 
+                  'Loading...'}
+              </Badge>
             </div>
           </div>
-        </Card>
-        
-        <Card className="bg-white hover:shadow-lg transition-all">
-          <div className="flex items-center">
-            <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-primary-100 text-primary-600 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm text-neutral-500">Current Curve</p>
-              <p className="text-xl font-bold text-neutral-900 truncate max-w-[180px]">
-                {currentCurve ? currentCurve.name : 'Loading...'}
-              </p>
-            </div>
-          </div>
-        </Card>
-        
-        <Card className="bg-white hover:shadow-lg transition-all">
-          <div className="flex items-center">
-            <div className="h-12 w-12 flex items-center justify-center rounded-lg bg-primary-100 text-primary-600 mr-4">
-              <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-sm text-neutral-500">Model</p>
-              <p className="text-xl font-bold text-neutral-900">
-                {currentCurve ? getMethodName(currentCurve.curveMethod) : 'Loading...'}
-              </p>
-            </div>
-          </div>
-        </Card>
+        </div>
       </div>
       
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
         <div className="lg:col-span-3">
-          <Card className="hover:shadow-lg transition-all h-full">
+          <Card 
+            className="h-full bg-white" 
+            title="Yield Curve Chart"
+            subtitle="Interactive visualization and analysis"
+            headerAction={
+              <div className="flex space-x-2">
+                <button 
+                  className={`text-xs px-2 py-1 rounded ${
+                    showForwardRates 
+                      ? 'bg-primary-100 text-primary-800 ring-1 ring-primary-200' 
+                      : 'bg-white text-neutral-600 border border-neutral-200'
+                  }`}
+                  onClick={() => setShowForwardRates(!showForwardRates)}
+                  disabled={isLoading || (currentCurve && currentCurve.curveType !== 'zero')}
+                >
+                  Forward Curve
+                </button>
+                <select
+                  className="text-xs border border-neutral-200 rounded p-1 bg-white text-neutral-700"
+                  value={interpolationMethod}
+                  onChange={(e) => setInterpolationMethod(e.target.value)}
+                  disabled={isLoading}
+                >
+                  <option value="cubic">Cubic Spline</option>
+                  <option value="linear">Linear</option>
+                  <option value="nss">Nelson-Siegel</option>
+                  <option value="smithwilson">Smith-Wilson</option>
+                </select>
+              </div>
+            }
+          >
             {isLoading ? (
               <div className="flex justify-center items-center h-96">
                 <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-600"></div>
@@ -200,9 +212,11 @@ export default function YieldCurvesPage() {
         </div>
         
         <div className="lg:col-span-1">
-          <Card className="hover:shadow-lg transition-all mb-6">
-            <h3 className="text-lg font-medium mb-4">Curve Settings</h3>
-            
+          <Card 
+            title="Curve Settings" 
+            subtitle="Configure curve parameters"
+            className="mb-6"
+          >
             <div className="space-y-4">
               <div>
                 <label htmlFor="curve-select" className="block text-sm font-medium text-neutral-700 mb-1">
@@ -210,7 +224,7 @@ export default function YieldCurvesPage() {
                 </label>
                 <select
                   id="curve-select"
-                  className="w-full border border-neutral-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500"
+                  className="w-full border border-neutral-200 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500"
                   value={selectedCurve}
                   onChange={(e) => setSelectedCurve(parseInt(e.target.value))}
                   disabled={isLoading}
@@ -229,7 +243,7 @@ export default function YieldCurvesPage() {
                 </label>
                 <select
                   id="interpolation-method"
-                  className="w-full border border-neutral-300 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500"
+                  className="w-full border border-neutral-200 rounded-md p-2 focus:ring-primary-500 focus:border-primary-500"
                   value={interpolationMethod}
                   onChange={(e) => setInterpolationMethod(e.target.value)}
                   disabled={isLoading}
@@ -241,39 +255,44 @@ export default function YieldCurvesPage() {
                 </select>
               </div>
               
-              <div className="flex items-center">
-                <input
-                  id="show-forward-rates"
-                  type="checkbox"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 rounded"
-                  checked={showForwardRates}
-                  onChange={(e) => setShowForwardRates(e.target.checked)}
-                  disabled={isLoading || (currentCurve && currentCurve.curveType !== 'zero')}
-                />
-                <label htmlFor="show-forward-rates" className="ml-2 block text-sm text-neutral-700">
-                  Show Forward Rates
-                </label>
-              </div>
-              
-              <div className="flex items-center">
-                <input
-                  id="interpolate"
-                  type="checkbox"
-                  className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-300 rounded"
-                  checked={interpolate}
-                  onChange={(e) => setInterpolate(e.target.checked)}
-                  disabled={isLoading}
-                />
-                <label htmlFor="interpolate" className="ml-2 block text-sm text-neutral-700">
-                  Apply Interpolation
-                </label>
+              <div className="flex space-x-4">
+                <div className="flex items-center">
+                  <input
+                    id="show-forward-rates"
+                    type="checkbox"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-200 rounded"
+                    checked={showForwardRates}
+                    onChange={(e) => setShowForwardRates(e.target.checked)}
+                    disabled={isLoading || (currentCurve && currentCurve.curveType !== 'zero')}
+                  />
+                  <label htmlFor="show-forward-rates" className="ml-2 block text-sm text-neutral-700">
+                    Forward Rates
+                  </label>
+                </div>
+                
+                <div className="flex items-center">
+                  <input
+                    id="interpolate"
+                    type="checkbox"
+                    className="h-4 w-4 text-primary-600 focus:ring-primary-500 border-neutral-200 rounded"
+                    checked={interpolate}
+                    onChange={(e) => setInterpolate(e.target.checked)}
+                    disabled={isLoading}
+                  />
+                  <label htmlFor="interpolate" className="ml-2 block text-sm text-neutral-700">
+                    Interpolate
+                  </label>
+                </div>
               </div>
               
               {interpolate && (
                 <div>
-                  <label htmlFor="resolution" className="block text-sm font-medium text-neutral-700 mb-1">
-                    Resolution: {resolution} points
-                  </label>
+                  <div className="flex justify-between items-center mb-1">
+                    <label htmlFor="resolution" className="block text-sm font-medium text-neutral-700">
+                      Resolution
+                    </label>
+                    <span className="text-xs text-neutral-500">{resolution} points</span>
+                  </div>
                   <input
                     id="resolution"
                     type="range"
@@ -288,53 +307,62 @@ export default function YieldCurvesPage() {
                 </div>
               )}
               
-              <button
-                className="w-full mt-2 bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded transition-colors disabled:opacity-50"
-                disabled={isLoading}
-                onClick={() => {
-                  // This would regenerate the curve with the selected parameters
-                  // In a real app, we would call the API with the new parameters
-                  alert('Curve regeneration would be implemented here');
-                }}
-              >
-                Generate Curve
-              </button>
+              <div className="pt-2">
+                <button
+                  className="w-full bg-primary-600 hover:bg-primary-700 text-white py-2 px-4 rounded-md shadow-sm transition-colors disabled:opacity-50"
+                  disabled={isLoading}
+                  onClick={() => {
+                    // This would regenerate the curve with the selected parameters
+                    // In a real app, we would call the API with the new parameters
+                    alert('Curve regeneration would be implemented here');
+                  }}
+                >
+                  Generate Curve
+                </button>
+              </div>
             </div>
           </Card>
           
           {currentCurve && currentCurve.modelParameters && (
-            <Card className="hover:shadow-lg transition-all">
-              <h3 className="text-lg font-medium mb-4">Model Parameters</h3>
-              
+            <Card 
+              title="Model Parameters" 
+              subtitle="Curve fitting parameters"
+            >
               <div className="space-y-2">
                 {Object.entries(currentCurve.modelParameters).map(([key, value]) => (
-                  <div key={key} className="flex justify-between">
+                  <div key={key} className="flex justify-between items-center py-1 border-b border-neutral-100 last:border-none">
                     <span className="text-sm text-neutral-600">
                       {key.charAt(0).toUpperCase() + key.slice(1)}:
                     </span>
-                    <span className="font-medium">
-                      {typeof value === 'number' ? value.toFixed(4) : value}
+                    <span className="font-medium text-sm bg-neutral-50 px-2 py-0.5 rounded">
+                      {typeof value === 'number' ? value.toFixed(6) : value}
                     </span>
                   </div>
                 ))}
               </div>
               
               <div className="mt-4 pt-4 border-t border-neutral-200">
-                <h4 className="text-sm font-medium mb-2">Curve Information</h4>
-                <div className="space-y-1 text-sm">
-                  <div className="flex justify-between">
-                    <span className="text-neutral-600">Type:</span>
-                    <Badge color="primary">
-                      {currentCurve.curveType.charAt(0).toUpperCase() + currentCurve.curveType.slice(1)}
-                    </Badge>
+                <h4 className="text-sm font-semibold mb-2 text-neutral-700">Curve Information</h4>
+                <div className="grid grid-cols-2 gap-2 text-sm">
+                  <div className="bg-neutral-50 p-2 rounded">
+                    <span className="block text-xs text-neutral-500">Type</span>
+                    <div className="mt-1">
+                      <Badge color="primary" size="sm">
+                        {currentCurve.curveType.charAt(0).toUpperCase() + currentCurve.curveType.slice(1)}
+                      </Badge>
+                    </div>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-neutral-600">Points:</span>
-                    <span>{currentCurve.points.length}</span>
+                  <div className="bg-neutral-50 p-2 rounded">
+                    <span className="block text-xs text-neutral-500">Points</span>
+                    <span className="font-medium">{currentCurve.points.length}</span>
                   </div>
-                  <div className="flex justify-between">
-                    <span className="text-neutral-600">Currency:</span>
-                    <span>{currentCurve.currency}</span>
+                  <div className="bg-neutral-50 p-2 rounded">
+                    <span className="block text-xs text-neutral-500">Currency</span>
+                    <span className="font-medium">{currentCurve.currency}</span>
+                  </div>
+                  <div className="bg-neutral-50 p-2 rounded">
+                    <span className="block text-xs text-neutral-500">Date</span>
+                    <span className="font-medium">{currentCurve.date}</span>
                   </div>
                 </div>
               </div>
@@ -344,30 +372,51 @@ export default function YieldCurvesPage() {
       </div>
       
       <div className="mt-6">
-        <Card className="hover:shadow-lg transition-all">
-          <h3 className="text-lg font-medium mb-4">Curve Data</h3>
-          
+        <Card 
+          title="Curve Data" 
+          subtitle="Rate points used in curve construction"
+          headerAction={
+            isLoading ? null : currentCurve ? (
+              <button 
+                className="text-xs bg-primary-50 hover:bg-primary-100 text-primary-700 px-2 py-1 rounded flex items-center"
+                onClick={() => { 
+                  alert('Download functionality would be implemented here');
+                }}
+              >
+                <svg className="w-3.5 h-3.5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
+                </svg>
+                Download CSV
+              </button>
+            ) : null
+          }
+        >
           {isLoading ? (
             <div className="flex justify-center items-center h-20">
               <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-primary-600"></div>
             </div>
           ) : currentCurve ? (
             <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-neutral-200">
+              <table className="min-w-full divide-y divide-neutral-200 table-compact">
                 <thead className="bg-neutral-50">
                   <tr>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                    <th className="table-header">
                       Tenor
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                    <th className="table-header">
                       Years
                     </th>
-                    <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                    <th className="table-header">
                       Rate (%)
                     </th>
                     {showForwardRates && forwardRates.length > 0 && (
-                      <th className="px-4 py-3 text-left text-xs font-medium text-neutral-500 uppercase tracking-wider">
+                      <th className="table-header">
                         Forward Rate (%)
+                      </th>
+                    )}
+                    {interpolate && (
+                      <th className="table-header">
+                        Type
                       </th>
                     )}
                   </tr>
@@ -377,19 +426,28 @@ export default function YieldCurvesPage() {
                     const matchingForward = forwardRates.find(fr => fr.tenor === point.tenor);
                     
                     return (
-                      <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50'}>
-                        <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-primary-700">
+                      <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-neutral-50/50'}>
+                        <td className="table-cell font-medium text-primary-700">
                           {point.tenor}
                         </td>
-                        <td className="px-4 py-2 whitespace-nowrap text-sm text-neutral-700">
+                        <td className="table-cell">
                           {point.years.toFixed(3)}
                         </td>
-                        <td className="px-4 py-2 whitespace-nowrap text-sm text-neutral-700">
+                        <td className="table-cell font-medium">
                           {point.rate.toFixed(4)}
                         </td>
                         {showForwardRates && forwardRates.length > 0 && (
-                          <td className="px-4 py-2 whitespace-nowrap text-sm text-neutral-700">
-                            {matchingForward ? matchingForward.rate.toFixed(4) : '-'}
+                          <td className="table-cell">
+                            {matchingForward ? (
+                              <span className={matchingForward.rate > point.rate ? 'text-green-600' : 'text-red-600'}>
+                                {matchingForward.rate.toFixed(4)}
+                              </span>
+                            ) : '-'}
+                          </td>
+                        )}
+                        {interpolate && (
+                          <td className="table-cell">
+                            <Badge color="blue" size="sm" className="uppercase">Market</Badge>
                           </td>
                         )}
                       </tr>
@@ -400,6 +458,17 @@ export default function YieldCurvesPage() {
             </div>
           ) : (
             <div className="text-center py-4">No curve data available</div>
+          )}
+          
+          {currentCurve && (
+            <div className="mt-4 pt-4 border-t border-neutral-100 flex justify-between items-center text-xs text-neutral-500">
+              <div>
+                <span className="font-medium">{currentCurve.points.length}</span> market points used to construct the curve
+              </div>
+              <div>
+                <span className="font-medium">{currentCurve.curveMethod}</span> interpolation method
+              </div>
+            </div>
           )}
         </Card>
       </div>

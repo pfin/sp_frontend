@@ -106,7 +106,7 @@ export default function YieldCurveChart({
                   <span className="text-sm text-neutral-600">{entry.name}:</span>
                 </div>
                 <span className="text-sm font-medium ml-3">
-                  {entry.value.toFixed(2)}%
+                  {entry.value.toFixed(4)}%
                 </span>
               </div>
             ))}
@@ -120,9 +120,9 @@ export default function YieldCurveChart({
   // Custom legend that allows toggling curves
   const CustomLegend = () => {
     return (
-      <div className="flex justify-center space-x-4 mb-2">
+      <div className="flex justify-center space-x-4 mb-3">
         <button
-          className={`px-2 py-1 text-xs rounded flex items-center space-x-1 ${
+          className={`px-3 py-1.5 text-xs rounded-md flex items-center space-x-2 shadow-sm ${
             activeCurves.main 
               ? 'bg-primary-100 text-primary-800 ring-1 ring-primary-200' 
               : 'bg-neutral-100 text-neutral-500'
@@ -135,7 +135,7 @@ export default function YieldCurveChart({
         
         {showForwardCurve && forwardRates && (
           <button
-            className={`px-2 py-1 text-xs rounded flex items-center space-x-1 ${
+            className={`px-3 py-1.5 text-xs rounded-md flex items-center space-x-2 shadow-sm ${
               activeCurves.forward 
                 ? 'bg-secondary-100 text-secondary-800 ring-1 ring-secondary-200' 
                 : 'bg-neutral-100 text-neutral-500'
@@ -149,18 +149,50 @@ export default function YieldCurveChart({
       </div>
     );
   };
+
+  // Zoom presets with descriptive titles
+  const zoomPresets = [
+    { label: 'All', action: () => setZoom(null) },
+    { label: 'Short End (0-5Y)', action: () => setZoom({start: 0, end: 5}) },
+    { label: 'Belly (2-10Y)', action: () => setZoom({start: 2, end: 10}) },
+    { label: 'Long End (10-30Y)', action: () => setZoom({start: 10, end: 30}) },
+    { label: 'Full Curve (0-30Y)', action: () => setZoom({start: 0, end: 30}) }
+  ];
+  
+  // Format to show more detailed curve information
+  const getCurveMethodInfo = () => {
+    switch(curveMethod) {
+      case 'cubic':
+        return 'Cubic Spline Interpolation (Natural Boundary Conditions)';
+      case 'nss':
+        return 'Nelson-Siegel-Svensson Parametric Model';
+      case 'smithwilson':
+        return 'Smith-Wilson Method (EIOPA Convergence)';
+      case 'linear':
+        return 'Linear Interpolation (Piecewise)';
+      default:
+        return curveMethod;
+    }
+  };
   
   return (
     <div className="w-full">
-      {title && <h3 className="text-lg font-medium mb-2 text-center">{title}</h3>}
+      {title && (
+        <div className="mb-4">
+          <h3 className="text-lg font-medium text-center text-neutral-800">{title}</h3>
+          <p className="text-xs text-center text-neutral-500 mt-1">
+            {getCurveMethodInfo()} | {curveType.charAt(0).toUpperCase() + curveType.slice(1)} Rates
+          </p>
+        </div>
+      )}
       
       <CustomLegend />
       
-      <div className="w-full h-full">
+      <div className="w-full h-full border border-neutral-100 rounded-lg overflow-hidden shadow-inner bg-neutral-50/50">
         <ResponsiveContainer width="100%" height={height}>
           <LineChart
             data={sortedData}
-            margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
+            margin={{ top: 20, right: 40, left: 5, bottom: 20 }}
           >
             {showGrid && <CartesianGrid strokeDasharray="3 3" stroke="#e5e5e5" />}
             
@@ -168,7 +200,7 @@ export default function YieldCurveChart({
               dataKey="years"
               type="number"
               domain={zoom ? [zoom.start, zoom.end] : [0, 'dataMax']}
-              tick={{ fontSize: 12 }}
+              tick={{ fontSize: 11 }}
               tickFormatter={(value) => `${value}Y`}
               label={{ 
                 value: 'Maturity (Years)', 
@@ -176,12 +208,13 @@ export default function YieldCurveChart({
                 offset: -5,
                 fontSize: 12
               }}
+              padding={{ left: 10, right: 10 }}
             />
             
             <YAxis
               domain={calculateYAxisDomain()}
-              tickFormatter={(value) => `${value.toFixed(1)}%`}
-              tick={{ fontSize: 12 }}
+              tickFormatter={(value) => `${value.toFixed(2)}%`}
+              tick={{ fontSize: 11 }}
               label={{ 
                 value: 'Rate (%)', 
                 angle: -90, 
@@ -191,21 +224,31 @@ export default function YieldCurveChart({
                   fontSize: 12
                 }
               }}
+              padding={{ top: 10, bottom: 10 }}
             />
             
             <Tooltip content={<CustomTooltip />} />
+            
+            <Legend
+              verticalAlign="top"
+              height={36}
+              formatter={(value, entry, index) => {
+                return <span className="text-xs font-medium">{value}</span>;
+              }}
+            />
             
             {highlightArea && (
               <ReferenceArea
                 x1={highlightArea.start}
                 x2={highlightArea.end}
                 strokeOpacity={0.3}
-                fill="#8884d8"
-                fillOpacity={0.1}
+                fill="#7c3aed"
+                fillOpacity={0.08}
                 label={highlightArea.label ? {
                   value: highlightArea.label,
                   position: 'insideTopRight',
-                  fontSize: 11
+                  fontSize: 11,
+                  fill: '#6d28d9'
                 } : undefined}
               />
             )}
@@ -213,32 +256,36 @@ export default function YieldCurveChart({
             {referenceLine && (
               <ReferenceLine
                 y={referenceLine.value}
-                stroke="#ff7300"
+                stroke="#7c3aed"
                 strokeDasharray="3 3"
                 label={referenceLine.label ? {
                   value: referenceLine.label,
                   position: 'right',
-                  fontSize: 11
+                  fontSize: 11,
+                  fill: '#6d28d9'
                 } : undefined}
               />
             )}
             
             {activeCurves.main && (
               <Line
-                type="monotone"
+                type={curveMethod === 'linear' ? 'linear' : 'monotone'}
                 dataKey="rate"
                 stroke="#7c3aed"
                 strokeWidth={2.5}
-                activeDot={{ r: 6 }}
+                activeDot={{ r: 6, stroke: '#7c3aed', strokeWidth: 1, fill: '#faf5ff' }}
                 name={curveType === 'zero' ? 'Zero Rate' : curveType === 'par' ? 'Par Rate' : 'Forward Rate'}
                 connectNulls
                 dot={{ r: 3, strokeWidth: 0, fill: '#7c3aed' }}
+                isAnimationActive={true}
+                animationDuration={750}
+                animationEasing="ease-in-out"
               />
             )}
             
             {showForwardCurve && forwardRates && activeCurves.forward && (
               <Line
-                type="monotone"
+                type={curveMethod === 'linear' ? 'linear' : 'monotone'}
                 data={forwardRates.sort((a, b) => a.years - b.years)}
                 dataKey="rate"
                 stroke="#9333ea"
@@ -247,44 +294,39 @@ export default function YieldCurveChart({
                 name="Forward Rate"
                 connectNulls
                 dot={{ r: 2, strokeWidth: 0, fill: '#9333ea' }}
+                isAnimationActive={true}
+                animationDuration={750}
+                animationEasing="ease-in-out"
+                animationBegin={250}
               />
             )}
           </LineChart>
         </ResponsiveContainer>
       </div>
       
-      <div className="flex justify-center space-x-2 mt-2">
-        <button
-          className="text-xs px-2 py-1 bg-neutral-100 hover:bg-neutral-200 rounded"
-          onClick={() => setZoom(null)}
-        >
-          Reset Zoom
-        </button>
-        <button
-          className="text-xs px-2 py-1 bg-neutral-100 hover:bg-neutral-200 rounded"
-          onClick={() => setZoom({start: 0, end: 5})}
-        >
-          0-5Y
-        </button>
-        <button
-          className="text-xs px-2 py-1 bg-neutral-100 hover:bg-neutral-200 rounded"
-          onClick={() => setZoom({start: 0, end: 10})}
-        >
-          0-10Y
-        </button>
-        <button
-          className="text-xs px-2 py-1 bg-neutral-100 hover:bg-neutral-200 rounded"
-          onClick={() => setZoom({start: 5, end: 30})}
-        >
-          5-30Y
-        </button>
+      <div className="flex flex-wrap justify-center gap-2 mt-4">
+        {zoomPresets.map((preset, index) => (
+          <button
+            key={index}
+            className="text-xs px-3 py-1.5 bg-neutral-100 hover:bg-neutral-200 rounded-md shadow-sm font-medium text-neutral-700 transition-colors"
+            onClick={preset.action}
+          >
+            {preset.label}
+          </button>
+        ))}
       </div>
       
-      <div className="text-xs text-neutral-500 mt-3">
-        <p className="text-center">
-          {curveMethod === 'cubic' ? 'Cubic Spline Interpolation' :
-           curveMethod === 'nss' ? 'Nelson-Siegel-Svensson Model' :
-           curveMethod === 'smithwilson' ? 'Smith-Wilson Method' : 'Linear Interpolation'}
+      <div className="flex items-center justify-center mt-4 space-x-2 text-xs text-neutral-500">
+        <div className="w-4 h-4 flex items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-3 w-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+        </div>
+        <p>
+          {curveMethod === 'cubic' ? 'Cubic splines maintain smoothness at knot points while preserving first and second derivatives.' :
+           curveMethod === 'nss' ? 'Nelson-Siegel-Svensson model uses 6 parameters to capture yield curve dynamics across maturities.' :
+           curveMethod === 'smithwilson' ? 'Smith-Wilson method ensures convergence to an ultimate forward rate for long durations.' : 
+           'Linear interpolation connects rate points with straight line segments.'}
         </p>
       </div>
     </div>
