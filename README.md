@@ -58,35 +58,26 @@ This platform calculates and visualizes implied interest rate differentials from
 
 ## Deployment to Vercel
 
-### Automated Deployment
+### One-Click Deployment
 
-1. Push your code to GitHub
-2. Import your GitHub repository to Vercel
-3. Configure environment variables in the Vercel dashboard:
-   - `NEXTAUTH_URL`: Your production URL
-   - `NEXTAUTH_SECRET`: A secure random string for production
+1. Push your code to GitHub (already done)
+2. Import your GitHub repository to Vercel:
+   - Go to [Vercel Dashboard](https://vercel.com/new)
+   - Select "Import Git Repository"
+   - Choose this repository
+   - Click "Deploy"
 
-### Manual Deployment
+### Environment Variables
 
-1. Install Vercel CLI
-   ```bash
-   npm install -g vercel
-   ```
+After deployment, configure these environment variables in the Vercel project settings:
 
-2. Log in to Vercel
-   ```bash
-   vercel login
-   ```
+1. Go to your project in the Vercel dashboard
+2. Navigate to "Settings" > "Environment Variables"
+3. Add the following variables:
+   - `NEXTAUTH_URL`: The URL of your deployed application (e.g., `https://sp-frontend.vercel.app`)
+   - `NEXTAUTH_SECRET`: A secure random string for production (use a password generator)
 
-3. Deploy to Vercel
-   ```bash
-   vercel
-   ```
-
-4. For production deployment
-   ```bash
-   vercel --prod
-   ```
+Vercel automatically detects Next.js projects and configures the appropriate build settings.
 
 ## Auth Credentials
 

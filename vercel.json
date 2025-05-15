@@ -1,15 +1,7 @@
 {
   "version": 2,
-  "buildCommand": "next build",
-  "devCommand": "next dev",
-  "installCommand": "npm install",
   "framework": "nextjs",
   "regions": ["iad1"],
-  "env": {
-    "NEXTAUTH_URL": "https://sp-frontend.vercel.app",
-    "NEXTAUTH_SECRET": "@nextauth-secret",
-    "NEXT_PUBLIC_API_URL": "https://sp-frontend.vercel.app/api"
-  },
   "headers": [
     {
       "source": "/(.*)",
