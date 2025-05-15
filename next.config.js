@@ -6,10 +6,6 @@ const nextConfig = {
   },
   eslint: {
     ignoreDuringBuilds: true,
-  },
-  // Add this experimental feature to completely disable ESLint
-  experimental: {
-    disableESLint: true
   }
 };
 
